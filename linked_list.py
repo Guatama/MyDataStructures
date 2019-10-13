@@ -28,10 +28,11 @@ class LList(object):
 
     def __repr__(self):
         current = self.head
-        result = []
+        result = "[ "
         while current:
-            result.append(current)
+            result = result + str(current.get_data()) + " -> "
             current = current.get_next()
+        result = result[:-4] + " ]"
         return str(result)
 
     def insert(self, data):
@@ -59,7 +60,6 @@ class LList(object):
 
         if current is None:
             raise ValueError("Data not in list")
-
         return current
 
     def delete(self, data):
