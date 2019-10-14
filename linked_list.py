@@ -3,44 +3,89 @@ class Node(object):
         Node class for linked list
     """
     def __init__(self, data=None, next_node=None):
-        self.data = data
-        self.next_node = next_node
+        self._data = data
+        self._next_node = next_node
 
     def __repr__(self):
-        return str(self.data)
+        return self._data.__repr__()
+
+    def __add__(self, other):
+        return LList(self, other)
 
     def get_data(self):
-        return self.data
+        return self._data
+
+    def set_data(self, new_data):
+        self._data = new_data
 
     def get_next(self):
-        return self.next_node
+        return self._next_node
 
     def set_next(self, new_next):
-        self.next_node = new_next
+        self._next_node = new_next
 
 
 class LList(object):
     """
         Linked list
     """
-    def __init__(self, head=None):
-        self.head = head
+    def __init__(self, head=None, *args):
+        if head is not None:
+            self.head = Node(head)
+
+            if args is not None:
+                for item in args:
+                    self.insert(item)
+        else:
+            self.head = head
 
     def __repr__(self):
         current = self.head
-        result = "[ "
+        result = ""
+
         while current:
-            result = result + str(current.get_data()) + " -> "
+            result = result + current.__repr__() + " -> "
             current = current.get_next()
-        result = result[:-4] + " ]"
+
+        if len(result) > 0:
+            result = result[:-4]
+
+        result = "[ " + result + " ]"
         return str(result)
+
+    def __len__(self):
+        return self._size()
+
+    def __add__(self, other):
+        # BUG Possibility of creating infinite loop
+        previous = None
+        current = self.head
+
+        while current:
+            previous = current
+            current = current.get_next()
+
+        if previous is None and current is None:
+            self.head = other.head
+        elif previous is not None and current is None:
+            previous.set_next(other.head)
+        else:
+            current.set_next(other.head)
+
+    def __getitem__(self, key):
+        return self._find_pos(key)
+
+    def __iter__(self):
+        size = len(self)
+        for i in range(size):
+            yield self.__getitem__(i)
 
     def insert(self, data):
         new_node = Node(data)
         new_node.set_next(self.head)
         self.head = new_node
 
-    def size(self):
+    def _size(self):
         current = self.head
         count = 0
         while current:
@@ -48,7 +93,7 @@ class LList(object):
             current = current.get_next()
         return count
 
-    def search(self, data):
+    def find(self, data):
         current = self.head
         found = False
 
@@ -60,6 +105,23 @@ class LList(object):
 
         if current is None:
             raise ValueError("Data not in list")
+        return current
+
+    def _find_pos(self, position):
+        current = self.head
+        found = False
+        count = 0
+
+        while current and found is False:
+            if count == position:
+                found = True
+                break
+            count += 1
+            current = current.get_next()
+
+        if current is None:
+            raise ValueError("Data not in list")
+
         return current
 
     def delete(self, data):
@@ -80,3 +142,17 @@ class LList(object):
             self.head = current.get_next()
         else:
             previous.set_next(current.get_next())
+
+
+if __name__ == "__main__":
+    p1 = LList('Anna', 'Eugene', 'Smoky', True, 2342)
+    print('p1 is ', p1)
+    p2 = LList()
+    print('p2 is ', p2)
+    p2.insert(234)
+    p2.insert('New string')
+    print('p2 is ', p2)
+    p1 + p2
+    print('p1 is ', p1)
+    for item in p1:
+        print(item)
