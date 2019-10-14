@@ -7,7 +7,7 @@ class Node(object):
         self._next_node = next_node
 
     def __repr__(self):
-        return self._data.__repr__()
+        return "*" + repr(self._data)
 
     def __add__(self, other):
         return LList(self, other)
@@ -47,7 +47,7 @@ class LList(object):
         result = ""
 
         while current:
-            result = result + current.__repr__() + " -> "
+            result = result + repr(current) + " -> "
             current = current.get_next()
 
         if len(result) > 0:
@@ -83,11 +83,6 @@ class LList(object):
         for i in range(size):
             yield self.__getitem__(i)
 
-    def insert(self, data):
-        new_node = Node(data)
-        new_node.set_next(self.head)
-        self.head = new_node
-
     def _size(self):
         current = self.head
         count = 0
@@ -96,8 +91,9 @@ class LList(object):
             current = current.get_next()
         return count
 
-    def find(self, data):
+    def _find_data(self, data):
         current = self.head
+        counter = 0
         found = False
 
         while current and found is False:
@@ -105,10 +101,11 @@ class LList(object):
                 found = True
             else:
                 current = current.get_next()
+                counter += 1
 
         if current is None:
             raise ValueError("Data not in list")
-        return current
+        return current, counter
 
     def _find_pos(self, position):
         current = self.head
@@ -126,6 +123,17 @@ class LList(object):
             raise ValueError("Data not in list")
 
         return current
+
+    def insert(self, data):
+        new_node = Node(data)
+        new_node.set_next(self.head)
+        self.head = new_node
+
+    def find(self, data):
+        return self._find_data(data)[0]
+
+    def index(self, data):
+        return self._find_data(data)[1]
 
     def delete(self, data):
         current = self.head
@@ -145,6 +153,9 @@ class LList(object):
             self.head = current.get_next()
         else:
             previous.set_next(current.get_next())
+
+    def clear(self):
+        self.head = None
 
 
 if __name__ == "__main__":
