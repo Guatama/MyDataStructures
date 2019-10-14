@@ -12,6 +12,9 @@ class Node(object):
     def __add__(self, other):
         return LList(self, other)
 
+    def __getitem__(self, key):
+        return self.get_data()[key]
+
     def get_data(self):
         return self._data
 
