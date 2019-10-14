@@ -148,7 +148,7 @@ class LList(object):
 
 
 if __name__ == "__main__":
-    p1 = LList('Anna', 'Eugene', 'Smoky', True, 2342)
+    p1 = LList('Test1', 'Test2', 'Test3', True, 2342)
     print('p1 is ', p1)
     p2 = LList()
     print('p2 is ', p2)
