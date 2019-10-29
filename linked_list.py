@@ -33,14 +33,17 @@ class LList(object):
         Linked list
     """
     def __init__(self, head=None, *args):
+        self._size = 0
         if head is not None:
             self.head = Node(head)
-
+            self._size += 1
+            
             if args is not None:
                 for item in args:
-                    self.insert(item)
+                    self.add(item)
         else:
             self.head = head
+
 
     def __repr__(self):
         current = self.head
@@ -57,12 +60,14 @@ class LList(object):
         return str(result)
 
     def __len__(self):
-        return self._size()
+        # return self._size()
+        return self._size
 
     def __add__(self, other):
         # BUG Possibility of creating infinite loop
         previous = None
         current = self.head
+        self._size += other._size
 
         while current:
             previous = current
@@ -83,13 +88,13 @@ class LList(object):
         for i in range(size):
             yield self.__getitem__(i)
 
-    def _size(self):
-        current = self.head
-        count = 0
-        while current:
-            count += 1
-            current = current.get_next()
-        return count
+    # def _size(self):
+    #     current = self.head
+    #     count = 0
+    #     while current:
+    #         count += 1
+    #         current = current.get_next()
+    #     return count
 
     def _find_data(self, data):
         current = self.head
@@ -124,10 +129,11 @@ class LList(object):
 
         return current
 
-    def insert(self, data):
+    def add(self, data):
         new_node = Node(data)
         new_node.set_next(self.head)
         self.head = new_node
+        self._size += 1
 
     def find(self, data):
         return self._find_data(data)[0]
@@ -155,16 +161,31 @@ class LList(object):
             previous.set_next(current.get_next())
 
     def clear(self):
+        self._size = 0
         self.head = None
+
+    def reverse(self):
+        prev = None
+        curr = self.head
+        nxt = None
+
+        while curr is not None:
+            nxt = curr.get_next()
+            curr.set_next(prev)
+            prev = curr
+            curr =nxt
+        self.head = prev
 
 
 if __name__ == "__main__":
     p1 = LList('Test1', 'Test2', 'Test3', True, 2342)
     print('p1 is ', p1)
+    p1.reverse()
+    print('p1 is reversed: ', p1)
     p2 = LList()
     print('p2 is ', p2)
-    p2.insert(234)
-    p2.insert('New string')
+    p2.add(234)
+    p2.add('New string')
     print('p2 is ', p2)
     p1 + p2
     print('p1 is ', p1)
