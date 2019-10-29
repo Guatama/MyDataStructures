@@ -25,7 +25,7 @@ class Node(object):
         return self._next_node
 
     def set_next(self, new_next):
-        self._next_node = new_next
+            self._next_node = new_next
 
 
 class LList(object):
@@ -175,6 +175,10 @@ class LList(object):
             prev = curr
             curr =nxt
         self.head = prev
+
+    def clone(self):
+        clone_list = LList()
+        return clone_list
 
 
 if __name__ == "__main__":
