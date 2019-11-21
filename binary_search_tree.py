@@ -17,19 +17,17 @@ class BST_Node(object):
     def set_data(self, new_data):
         self._data = new_data
 
-    def add_leaf(self, new_leaf_data):
+    def add(self, new_leaf_data):
         if new_leaf_data > self._data:
             if self._right_leaf is None:
-                self._right_leaf = Node(new_leaf_data)
+                self._right_leaf = BST_Node(new_leaf_data)
             else:
-                self._right_leaf.add_leaf(new_leaf_data)
+                self._right_leaf.add(new_leaf_data)
         elif new_leaf_data < self._data:
             if self._left_leaf is None:
-                self._left_leaf = Node(new_leaf_data)
+                self._left_leaf = BST_Node(new_leaf_data)
             else:
-                self._left_leaf.add_leaf(new_leaf_data)
-        else:
-            return
+                self._left_leaf.add(new_leaf_data)
 
     def get_leafs(self):
         return (self._left_leaf, self._right_leaf)
@@ -39,11 +37,30 @@ class BS_Tree():
     """
         Binary Search Tree implementation
     """
-    def __init__(self, root=BST_Node()):
-        self.root = root
+    def __init__(self, root=None):
+        self.root = BST_Node(root)
 
     def __len__(self):
         pass
 
+    def __repr__(self):
+        pass
+
+    def add(self, new_leaf_data):
+        self.root.add(new_leaf_data)
+
     def traverse(self):
         pass
+
+    def get_data(self):
+        """
+            Traverse tree, and return list with data from all leafs
+        """
+        pass
+
+    def set_data(self, list_of_data):
+        for item in list_of_data:
+            if self.root.get_data() is None:
+                self.root.set_data(item)
+                continue
+            self.root.add(item)
