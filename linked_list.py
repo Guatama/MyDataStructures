@@ -1,4 +1,4 @@
-class Node(object):
+class Node():
     """
         Node class for linked list
     """
@@ -28,16 +28,17 @@ class Node(object):
         self._next_node = new_next
 
 
-class LList(object):
+class LList():
     """
         Linked list
     """
+
     def __init__(self, head=None, *args):
         self._size = 0
         if head is not None:
             self.head = Node(head)
             self._size += 1
-           
+
             if args is not None:
                 for item in args:
                     self.add(item)
