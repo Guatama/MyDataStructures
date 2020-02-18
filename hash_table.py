@@ -7,10 +7,11 @@ class HM_list():
     """
     def __init__(self):
         self.size = 10
+        self.len_el = 0
         self.map = [None] * self.size
 
     def __len__(self):
-        return self.size
+        return self.len_el
 
     def __repr__(self):
         result = ''
@@ -27,6 +28,7 @@ class HM_list():
         return hash % self.size
 
     def add(self, key, value):
+        self.len_el += 1
         key_hash = self.__hash__func(key)
         key_value = [key, value]
 
@@ -49,6 +51,7 @@ class HM_list():
             raise KeyError("Key [{}] doesn't exist".format(key))
 
     def delete(self, key):
+        self.len_el -= 1
         key_hash = self.__hash__func(key)
 
         if self.map[key_hash] is None:
