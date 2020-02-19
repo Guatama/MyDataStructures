@@ -1,4 +1,4 @@
-class BST_Node(object):
+class BstNode():
     """
         Node class for binary search tree (can be used for
         double linked list)
@@ -20,12 +20,12 @@ class BST_Node(object):
     def add(self, new_leaf_data):
         if new_leaf_data > self._data:
             if self._right_leaf is None:
-                self._right_leaf = BST_Node(new_leaf_data)
+                self._right_leaf = BstNode(new_leaf_data)
             else:
                 self._right_leaf.add(new_leaf_data)
         elif new_leaf_data < self._data:
             if self._left_leaf is None:
-                self._left_leaf = BST_Node(new_leaf_data)
+                self._left_leaf = BstNode(new_leaf_data)
             else:
                 self._left_leaf.add(new_leaf_data)
 
@@ -33,12 +33,12 @@ class BST_Node(object):
         return (self._left_leaf, self._right_leaf)
 
 
-class BS_Tree():
+class BsTree():
     """
         Binary Search Tree implementation
     """
     def __init__(self, root=None):
-        self.root = BST_Node(root)
+        self.root = BstNode(root)
 
     def __len__(self):
         pass
